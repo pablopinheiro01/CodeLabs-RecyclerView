@@ -71,6 +71,15 @@ class SleepTrackerFragment : Fragment() {
         // give the binding object a reference to it.
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
+        val adapterSleep = SleepNightAdapter()
+        binding.sleepList.adapter = adapterSleep
+
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer { listSleepNight->
+            listSleepNight?.let {
+                adapterSleep.data = it
+            }
+        })
+
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
         binding.lifecycleOwner = this
@@ -108,17 +117,6 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneNavigating()
             }
 
-            binding.sleepList.visibility = View.VISIBLE
-
-            val adapterSleep = SleepNightAdapter()
-
-
-            sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer { listSleepNight->
-                listSleepNight?.let {
-                    adapterSleep.data = listSleepNight
-                    binding.sleepList.adapter = adapterSleep
-                }
-            })
 
 
         })
