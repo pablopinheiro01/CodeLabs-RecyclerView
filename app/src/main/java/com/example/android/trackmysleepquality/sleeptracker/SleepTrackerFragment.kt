@@ -21,6 +21,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
@@ -73,9 +75,14 @@ class SleepTrackerFragment : Fragment() {
         // give the binding object a reference to it.
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
+//        val adapterSleep = SleepNightAdapter(SleepNightListener {nightId ->
+//            Toast.makeText(context, "$nightId", Toast.LENGTH_LONG).show()
+//        })
+
         val adapterSleep = SleepNightAdapter(SleepNightListener {nightId ->
-            Toast.makeText(context, "$nightId", Toast.LENGTH_LONG).show()
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
         })
+
         binding.sleepList.adapter = adapterSleep
 
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer { listSleepNight->
@@ -122,8 +129,20 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
-        val manager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, true)
+        sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { nightId ->
+            nightId?.let{
+                //seto a navegacao passando o id dos arguments required
+                this.findNavController().navigate(
+                    SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepDetailFragment(nightId)
+                )
+                //declaro que ja fiz a navegacao para anular a variavel
+                sleepTrackerViewModel.onSleepDetailNavigated()
+            }
+        })
+
+//        val manager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, true)
 //        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
+        val manager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
         binding.sleepList.layoutManager = manager
 
 
