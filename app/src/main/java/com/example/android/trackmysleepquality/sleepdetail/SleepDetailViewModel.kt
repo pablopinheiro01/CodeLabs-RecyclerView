@@ -16,6 +16,7 @@
 
 package com.example.android.trackmysleepquality.sleepdetail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -46,9 +47,10 @@ class SleepDetailViewModel(
 
     fun getNight() = night
 
-
     init {
         night=database.getNightWithId(sleepNightKey)
+        Log.i("SleepDetailViewModel","o valor de night e ${night.value}" +
+                " ainda a Thread secundaria esta executando a busca")
     }
 
     /**
