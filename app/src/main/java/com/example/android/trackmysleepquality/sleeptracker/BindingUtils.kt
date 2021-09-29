@@ -8,6 +8,12 @@ import com.example.android.trackmysleepquality.convertDurationToFormatted
 import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 
+/*
+No entanto, acontece que, com esse novo mecanismo de tratamento de cliques, agora é possível que
+ os adaptadores de ligação sejam chamados com um valor null para item.
+  Em particular, quando o aplicativo é iniciado, o LiveData inicia como null,
+  portanto, você precisa adicionar verificações de nulos a cada um dos adaptadores.
+ */
     @BindingAdapter("sleepDurationFormatted")
     fun TextView.setSleepDurationFormatted(item: SleepNight?){
         item?.let {
