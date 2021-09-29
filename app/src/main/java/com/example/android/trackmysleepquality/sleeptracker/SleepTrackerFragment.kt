@@ -143,6 +143,16 @@ class SleepTrackerFragment : Fragment() {
 
 //        val manager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, true)
 //        val manager = GridLayoutManager(activity, 5, GridLayoutManager.HORIZONTAL, false)
+
+        //no caso de querer utilizar um GridLayout com o cabeçalho
+//        val manager = GridLayoutManager(activity, 3)
+//        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int) =  when (position) {
+//                0 -> 3 //posicao 0 ocupa o espaço de 3 posições no GRID
+//                else -> 1 // caso contrario exibe normalmente o restante
+//            }
+//        }
+        
         val manager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         binding.sleepList.layoutManager = manager
 
